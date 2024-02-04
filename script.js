@@ -7,19 +7,19 @@ const score1 = document.querySelector(".score--1");
 const current1 = document.getElementById("current--1");
 const current0 = document.getElementById("current--0");
 const Hold = document.querySelector(".hold");
-
 const win = document.getElementById("winning")
 
-console.log(win);
 
 
 
-let score;
+let score,current;
 let active_player = document.querySelector(".active");
 active_player = active_player.id.charAt(active_player.id.length-1);
-let current =0;
-let playing = true;
+let current_0 =0;
+let current_1 =0;
 
+
+let playing = true;
 
 
 function switchPlayer() {
@@ -44,55 +44,46 @@ function rollDice() {
 
 Roll.addEventListener("click", function () {
   if (playing) {
-
     const dice = rollDice();
     img.src = `dice-${dice}.png`;
     if(dice!==1){
-      current+=dice;
       if(active_player===1){
+        current_1+=dice;
         score1.textContent = dice;
-        current1.textContent = current;
+        current1.textContent = current_1;
       }
       else{
+        current_0+=dice;
         score0.textContent = dice;
-        current0.textContent=current;
+        current0.textContent=current_0;
       }
       
     }
-    else{
-    current=0;
+    if (dice===1){
     if(active_player===1)
     {
+      current_1=0;
       score1.textContent = 0;
-      current1.textContent = current;
+      current1.textContent = current_1;
 
       
     }
     else{
+      current_0=0;
       score0.textContent = 0;
-      current0.textContent = current;
+      current0.textContent = current_0;
 
     }
     switchPlayer();
-
     }
-
-    Hold.addEventListener("click",function () {
-      active_player = (active_player!==1) ? 0 : 1 ;
-      switchPlayer();
-
-    });
-
-  }
-
-  if(current0.innerHTML == 50)
+    if(current0.innerHTML >= 20)
     {
       console.log("player 0 win");
       win.classList.add("win-page");
       win.textContent = "Player  0 win 🏆🥇";
       playing=false;
     }
-  if(current1.innerHTML == 50)
+    if(current1.innerHTML >= 20)
     {
       console.log("player 1 win");
       win.classList.add("win-page");
@@ -100,7 +91,12 @@ Roll.addEventListener("click", function () {
       playing=false;
 
     }
+    Hold.addEventListener("click",function () {
+      active_player = (active_player!==1) ? 0 : 1 ;
+      switchPlayer();
 
+    });
+  }
 
   else {
     console.log("Finish");
